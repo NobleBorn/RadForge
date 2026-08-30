@@ -7,8 +7,6 @@ import type {
   OutcomeDistribution,
 } from '@/types/reducer'
 
-const outcomes: Outcome[] = ['1', 'X', '2']
-
 export function useOutcomeDistribution(
   matches: Ref<MatchItem[]>,
   rows: Ref<GeneratedRow[]>,

@@ -72,7 +72,6 @@ function downloadText(): void {
   }
 
   downloadRowsAsText(
-    matches.value,
     reducedRows.value,
   )
 }
@@ -95,7 +94,6 @@ function updateSettings(
   settings.outcomeLimits = updatedSettings.outcomeLimits
   settings.colours = updatedSettings.colours
   settings.points = updatedSettings.points
-  settings.totalOdds = updatedSettings.totalOdds
 
   clearGeneratedRows()
 }
@@ -162,9 +160,6 @@ function resetSystem(): void {
 
   settings.points =
     defaultSettings.points
-
-  settings.totalOdds =
-    defaultSettings.totalOdds
 
   activeColour.value = null
   reducedRows.value = []

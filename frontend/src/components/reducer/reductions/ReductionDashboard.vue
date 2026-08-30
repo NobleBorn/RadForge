@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue'
 
 import ColourReductionPanel from '@/components/reducer/reductions/ColourReductionPanel.vue'
-import OddsReductionPanel from '@/components/reducer/reductions/OddsReductionPanel.vue'
 import OutcomeReductionPanel from '@/components/reducer/reductions/OutcomeReductionPanel.vue'
 import PointsReductionPanel from '@/components/reducer/reductions/PointsReductionPanel.vue'
 
@@ -18,7 +17,6 @@ type ReductionTab =
   | 'outcomes'
   | 'colours'
   | 'points'
-  | 'odds'
 
 interface TabDefinition {
   id: ReductionTab
@@ -55,11 +53,6 @@ const tabs: TabDefinition[] = [
     label: 'Point reduction',
     shortLabel: 'Points',
   },
-  {
-    id: 'odds',
-    label: 'Total odds reduction',
-    shortLabel: 'Odds',
-  },
 ]
 
 const enabledMethodCount = computed<number>(() => {
@@ -82,10 +75,6 @@ const enabledMethodCount = computed<number>(() => {
   }
 
   if (props.modelValue.points.enabled) {
-    count++
-  }
-
-  if (props.modelValue.totalOdds.enabled) {
     count++
   }
 
@@ -125,9 +114,6 @@ function cloneSettings(): ReductionSettings {
       ...props.modelValue.points,
     },
 
-    totalOdds: {
-      ...props.modelValue.totalOdds,
-    },
   }
 }
 
@@ -159,14 +145,6 @@ function updatePoints(points: NumericRange): void {
   emit('update:modelValue', updatedSettings)
 }
 
-function updateTotalOdds(totalOdds: NumericRange): void {
-  const updatedSettings = cloneSettings()
-
-  updatedSettings.totalOdds = totalOdds
-
-  emit('update:modelValue', updatedSettings)
-}
-
 function updateActiveColour(
   colour: ColourId | null,
 ): void {
@@ -190,11 +168,7 @@ function tabIsEnabled(tab: ReductionTab): boolean {
     ).some((colour) => colour.enabled)
   }
 
-  if (tab === 'points') {
-    return props.modelValue.points.enabled
-  }
-
-  return props.modelValue.totalOdds.enabled
+  return props.modelValue.points.enabled
 }
 </script>
 
@@ -271,15 +245,9 @@ function tabIsEnabled(tab: ReductionTab): boolean {
       />
 
       <PointsReductionPanel
-        v-else-if="activeTab === 'points'"
+        v-else
         :model-value="modelValue.points"
         @update:model-value="updatePoints"
-      />
-
-      <OddsReductionPanel
-        v-else
-        :model-value="modelValue.totalOdds"
-        @update:model-value="updateTotalOdds"
       />
     </div>
   </section>
@@ -353,7 +321,7 @@ function tabIsEnabled(tab: ReductionTab): boolean {
 
 .reduction-tabs {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   border-bottom: 1px solid #3f535f;
   background: #243640;
 }
@@ -462,15 +430,7 @@ function tabIsEnabled(tab: ReductionTab): boolean {
   }
 
   .reduction-tabs {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .tab-button:nth-child(2) {
-    border-right: 0;
-  }
-
-  .tab-button:nth-child(-n + 2) {
-    border-bottom: 1px solid #384c56;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .dashboard-content {

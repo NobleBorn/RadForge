@@ -75,13 +75,11 @@ export interface ReductionSettings {
   outcomeLimits: OutcomeReductionLimits
   colours: ColourReductions
   points: NumericRange
-  totalOdds: NumericRange
 }
 
 export interface GeneratedRow {
   outcomes: Outcome[]
   totalPoints: number
-  totalOdds: number
 }
 
 export interface OutcomeDistribution {

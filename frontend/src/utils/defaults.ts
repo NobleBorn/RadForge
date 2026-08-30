@@ -105,11 +105,5 @@ export function createDefaultReductionSettings(
       min: null,
       max: null,
     },
-
-    totalOdds: {
-      enabled: false,
-      min: null,
-      max: null,
-    },
   }
 }
